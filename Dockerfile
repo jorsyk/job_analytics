@@ -1,23 +1,17 @@
-# Base image
-FROM python:3.12-slim
+FROM python:3.13-slim as builder
 
-# Install system dependencies (optional, для некоторых пакетов)
-RUN apt-get update && apt-get install -y build-essential && rm -rf /var/lib/apt/lists/*
-
-# Install uv
-RUN pip install uv
-
-# Set workdir
 WORKDIR /app
 
-# Copy project
-COPY . .
+COPY requirement.txt .
 
-# Install Python dependencies via uv
-RUN uv sync --frozen
+RUN pip install --no--cache-dir -r requirements.txt
 
-# Expose port for Django
-EXPOSE 8000
 
-# Default command
-CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+FROM python:3.13-slim
+
+WORKDIR /app
+
+COPY --from=builder /app /app
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
