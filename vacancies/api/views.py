@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
 from vacancies.models import VacancyModel
-from vacancies.serializers import VacancySerializer
-from vacancies.filters import VacancyFilter
+from vacancies.api.serializers import VacancySerializer
+from vacancies.api.filters import VacancyFilter
 
 
 class VacancyViewSet(viewsets.ModelViewSet):

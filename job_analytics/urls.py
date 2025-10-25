@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from vacancies import views
+from vacancies.api import views
 
 router = routers.DefaultRouter()
 router.register(r"api/vacancies", views.VacancyViewSet)
