@@ -5,7 +5,7 @@ from rest_framework import routers
 from vacancies import views
 
 router = routers.DefaultRouter()
-router.register(r"vacancies", views.VacancyViewSet)
+router.register(r"api/vacancies", views.VacancyViewSet)
 
 
 urlpatterns = [
