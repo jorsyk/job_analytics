@@ -4,4 +4,4 @@ from vacancies.models import VacancyModel
 class VacancySerializer(serializers.ModelSerializer):
     class Meta:
         model = VacancyModel
-        fields = ["id", "title", "company", "city", "salary_from", "salary_to", "currency", "role", "url", "published_at"]
+        fields = ["id", "title", "company", "city", "salary_from", "url", "date"]

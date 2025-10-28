@@ -7,7 +7,7 @@ from vacancies.api.filters import VacancyFilter
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
-    queryset = VacancyModel.objects.all().order_by("-published_at", "-id")
+    queryset = VacancyModel.objects.all().order_by("-date", "-id")
     serializer_class = VacancySerializer
 
     filter_backends = [DjangoFilterBackend]
