@@ -2,14 +2,12 @@ from django.db import models
 
 class VacancyModel(models.Model):
     title = models.CharField(max_length=255)
-    company = models.CharField(max_length=255, null=True, blank=True)
+    company = models.CharField(max_length=255)
     city = models.CharField(max_length=100, null=True, blank=True)
-    salary_from = models.IntegerField(null=True, blank=True)
-    salary_to = models.IntegerField(null=True, blank=True)
-    currency = models.CharField(max_length=10, null=True, blank=True)
-    role = models.CharField(max_length=100, null=True, blank=True)
-    url = models.URLField(max_length=500, null=True, blank=True)
-    published_at = models.DateTimeField(null=True, blank=True)
+    salary_from = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    url = models.URLField()
+    date = models.DateField(auto_now_add=True)
+
 
     def __str__(self):
         return f"{self.title} ({self.company})"
