@@ -1,6 +1,6 @@
 
 import os
-from job_analytics.celery import Celery
+from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'job_analytics.settings')
 
