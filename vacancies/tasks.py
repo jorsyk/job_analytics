@@ -1,9 +1,9 @@
 from celery import shared_task
-import time
+from django.core.management import call_command
+import logging
 
-@shared_task
-def test_task():
-    print("Начинаю задачу...")
-    time.sleep(5)
-    print("Задача выполнена!")
-    return "Готово!"
+logger = logging.getLogger(__name__)
+
+
+
+
