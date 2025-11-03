@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from celery.schedules import crontab
 
 # Upload .env file
 
@@ -156,3 +157,12 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Europe/Minsk"
+
+
+
+CELERY_BEAT_SCHEDULE = {
+    'update-vacancies-every-6-hours': {
+        "task": "vacancies.tasks.update_vacancies",
+        "schedule": crontab(hour='*/6'),
+    },
+}
