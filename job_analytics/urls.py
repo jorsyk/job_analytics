@@ -6,10 +6,11 @@ from vacancies.api import views
 
 router = routers.DefaultRouter()
 router.register(r"api/vacancies", views.VacancyViewSet)
-router.register(r"/api/stats/salary/", views.VacancyViewSet)
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(router.urls)),
+    path("api/stats/salary/", views.AvgSalaryView.as_view(), name="avg-salary"),
 ]

@@ -19,12 +19,12 @@ class VacancyViewSet(viewsets.ModelViewSet):
 
 class AvgSalaryView(APIView):
     """
-        return avg salary
+    return avg salary
     """
     def get(self, request):
-        avg_salary = VacancyModel.objects.aaggregate(Avg('salary_from'))['salary_from_avg']
+        
+        result = VacancyModel.objects.aggregate(avg_salary=Avg('salary_from'))
 
-    # if db is empty
-        avg = float(avg_salary) if avg_salary is not None else 0.0
+        avg = float(result['avg_salary']) if result['avg_salary'] is not None else 0.0
 
-        return Response({"avg_salary": avg_salary})
+        return Response({"avg_salary": avg})
