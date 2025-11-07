@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django_filters.rest_framework import DjangoFilterBackend
 
 from vacancies.models import VacancyModel
@@ -28,3 +28,17 @@ class AvgSalaryView(APIView):
         avg = float(result['avg_salary']) if result['avg_salary'] is not None else 0.0
 
         return Response({"avg_salary": avg})
+    
+
+class TopCitiesView(APIView):
+    """
+    retutn top 5 cities
+    """
+    def get(self, request):
+        data = (
+            VacancyModel.objects
+            .values("city")                     
+            .annotate(count=Count("city"))      
+            .order_by("-count")[:5]             
+        )
+        return Response(data)
