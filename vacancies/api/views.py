@@ -42,3 +42,17 @@ class TopCitiesView(APIView):
             .order_by("-count")[:5]             
         )
         return Response(data)
+    
+
+class TrendsView(APIView):
+    """
+    return example {"date": "2025-11-01", "vacancies": 42}
+    """
+    def get(self, request):
+        data = (
+            VacancyModel.objects
+            .all()
+            .annotate(vacancies=Count("date"))
+            .order_by('-date')
+            )
+        return Response(data)
