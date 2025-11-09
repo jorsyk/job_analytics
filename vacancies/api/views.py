@@ -1,10 +1,14 @@
+from django.db.models import Avg, Count
+from django.db.models.functions import TruncDate
+
+from vacancies.models import VacancyModel
+
+from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.db.models import Avg, Count
-from django_filters.rest_framework import DjangoFilterBackend
 
-from vacancies.models import VacancyModel
 from vacancies.api.serializers import VacancySerializer, AvgSalarySerializer
 from vacancies.api.filters import VacancyFilter
 
@@ -44,15 +48,29 @@ class TopCitiesView(APIView):
         return Response(data)
     
 
-class TrendsView(APIView):
+class VacancyTrendsView(APIView):
     """
-    return example {"date": "2025-11-01", "vacancies": 42}
+    return
+    Example: [{"date": "2025-11-01", "vacancies": 42}, ...]
     """
+
     def get(self, request):
-        data = (
+        trends = (
             VacancyModel.objects
-            .all()
-            .annotate(vacancies=Count("date"))
-            .order_by('-date')
-            )
+            .annotate(date_only=TruncDate('date'))  # округляем до дня
+            .values('date_only')
+            .annotate(vacancies=Count('id'))
+            .order_by('date_only')
+        )
+
+        # Преобразуем дату в строку, иначе JSON не сможет её сериализовать
+        data = [
+            {
+                "date": item["date_only"].strftime("%Y-%m-%d") if item["date_only"] else None,
+                "vacancies": item["vacancies"],
+            }
+            for item in trends
+        ]
+
         return Response(data)
+            

@@ -14,5 +14,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("api/stats/salary/", views.AvgSalaryView.as_view(), name="avg-salary"),
     path("api/stats/top-cities/", views.TopCitiesView.as_view(), name="top-cities"),
-    path("api/stats/trends/", views.TrendsView.as_view(), name="trends"),
+    path("api/stats/trends/", views.VacancyTrendsView.as_view(), name="vacancy-trends"),
 ]
