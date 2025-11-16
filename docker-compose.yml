@@ -1,18 +1,33 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:16
     container_name: job_analytics_db
     restart: always
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB=${DB_NAME}
-      POSTGRES_USER=${DB_USER}
-      POSTGRES_PASSWORD=${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  cache:
+    image: redis:latest
+    container_name: job_analytics_cache
+    restart: always
     env_file:
       - .env
+    environment:
+      - name=value
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/var/lib/redis/data
 
   web:
     build: .
