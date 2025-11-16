@@ -163,6 +163,6 @@ CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_BEAT_SCHEDULE = {
     'update-vacancies-every-6-hours': {
         "task": "vacancies.tasks.update_vacancies",
-        "schedule": crontab(hour='*/6'),
+        "schedule": crontab(minute='*/1'),
     },
 }
