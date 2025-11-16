@@ -16,6 +16,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  adminer:
+    image: adminer
+    restart: always  
+    ports:
+      - 8080:8080
+
   cache:
     image: redis:latest
     container_name: job_analytics_cache
@@ -39,8 +45,10 @@ services:
       - .:/app
     depends_on:
       - db
+      - cache
     env_file:
       - .env
 
 volumes:
   postgres_data:
+  redis_data:
