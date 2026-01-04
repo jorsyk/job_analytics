@@ -1,4 +1,3 @@
-version: "3.9"
 
 services:
   db:
@@ -28,12 +27,8 @@ services:
     restart: always
     env_file:
       - .env
-    environment:
-      - name=value
     ports:
       - "6379:6379"
-    volumes:
-      - redis_data:/var/lib/redis/data
 
   web:
     build: .
@@ -49,6 +44,30 @@ services:
     env_file:
       - .env
 
+  celery:
+    build: .
+    container_name: job_analytics_celery
+    command: celery -A job_analytics worker -l info
+    volumes:
+    - .:/app
+    depends_on:
+    - db
+    - cache
+    env_file:
+    - .env
+  celery-beat:
+    build: .
+    container_name: job_analytics_celery_beat
+    command: celery -A job_analytics beat -l info
+    volumes:
+    - .:/app
+    depends_on:
+    - db
+    - cache
+    env_file:
+    - .env
+
+
+
 volumes:
   postgres_data:
-  redis_data:
